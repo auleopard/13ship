@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13Ship - 反向海淘转运平台</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0071e3;
+            --primary-dark: #0077ed;
+            --accent: #1d1d1f;
+            --success: #34c759;
+            --warning: #ff9500;
+            --danger: #ff3b30;
+            --text: #1d1d1f;
+            --text-light: #86868b;
+            --bg: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: var(--white);
+            backdrop-filter: saturate(180%) blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            height: 64px;
+            gap: 32px;
+        }
+        .logo {
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: -0.5px;
+        }
+        .logo span { color: var(--primary); }
+        
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            background: var(--bg);
+            color: var(--primary);
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-left: auto;
+        }
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-decoration: none;
+            background: none;
+            border: none;
+        }
+        .nav-btn:hover { background: var(--bg); }
+        .nav-btn-icon { font-size: 20px; }
+        .cart-count {
+            background: var(--danger);
+            color: white;
+            font-size: 11px;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            padding: 0 5px;
+        }
+        
+        /* Container */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,113,227,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+        .hero h1 span { color: var(--primary); }
+        .hero p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+        .hero-btns {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+        
+        .hero-visual {
+            position: relative;
+        }
+        .hero-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 32px;
+        }
+        .hero-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .hero-card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .hero-card-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .hero-card-sub { font-size: 13px; color: rgba(255,255,255,0.5); }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .hero-stat {
+            text-align: center;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+        }
+        .hero-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .hero-stat-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 4px;
+        }
+        
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background: var(--white);
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(0,113,227,0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .feature-card {
+            background: var(--bg);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--white);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .feature-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 0;
+            background: var(--bg);
+        }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            position: relative;
+        }
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            z-index: 0;
+        }
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .step-num {
+            width: 80px;
+            height: 80px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 auto 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .step-desc {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        /* Supported Sites */
+        .sites {
+            padding: 80px 0;
+            background: var(--white);
+        }
+        .sites-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+        .site-card {
+            background: var(--bg);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .site-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .site-logo {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+        .site-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* Pricing */
+        .pricing {
+            padding: 80px 0;
+            background: linear-gradient(180deg, var(--bg) 0%, var(--white) 100%);
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .price-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        .price-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .price-card.featured {
+            border: 2px solid var(--primary);
+            position: relative;
+        }
+        .price-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .price-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .price-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+        .price-amount {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .price-amount span {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-light);
+        }
+        .price-unit {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+        .price-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+        .price-features li {
+            padding: 10px 0;
+            font-size: 14px;
+            color: var(--text);
+            border-bottom: 1px solid var(--bg);
+        }
+        .price-features li:last-child { border: none; }
+        
+        /* CTA */
+        .cta {
+            padding: 80px 0;
+            background: var(--accent);
+            color: white;
+            text-align: center;
+        }
+        .cta h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .cta p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 32px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--white);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        .footer-brand .logo {
+            font-size: 24px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        .footer-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        /* Page Sections */
+        .page-section {
+            display: none;
+            padding: 40px 0;
+            min-height: calc(100vh - 200px);
+        }
+        .page-section.active { display: block; }
+        
+        .page-header {
+            margin-bottom: 32px;
+        }
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .page-desc {
+            color: var(--text-light);
+            font-size: 15px;
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0,113,227,0.1);
+        }
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* Buttons */
+        .btn-lg { padding: 16px 32px; font-size: 16px; }
+        .btn-block { width: 100%; justify-content: center; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        /* Product Grid */
+        .product-input-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .product-url-input {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .product-url-input .form-input {
+            flex: 1;
+            font-size: 15px;
+        }
+        .product-examples {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        .product-examples span {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--bg);
+            border-radius: 16px;
+            margin: 4px 4px 4px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .product-examples span:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Cart Items */
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .cart-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: var(--white);
+            border-radius: 16px;
+            align-items: center;
+        }
+        .cart-item-img {
+            width: 100px;
+            height: 100px;
+            background: var(--bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+        .cart-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .cart-item-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .cart-item-meta {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        .cart-item-price {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-left: auto;
+            margin-right: 20px;
+        }
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--white);
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .qty-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .qty-value {
+            width: 40px;
+            text-align: center;
+            font-weight: 500;
+        }
+        .delete-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,59,48,0.1);
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .delete-btn:hover { background: var(--danger); color: white; }
+        
+        /* Cart Summary */
+        .cart-summary {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px;
+            position: sticky;
+            top: 88px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            font-size: 15px;
+        }
+        .summary-row.total {
+            border-top: 1px solid var(--border);
+            margin-top: 12px;
+            padding-top: 20px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .summary-row .label { color: var(--text-light); }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .empty-desc {
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+        
+        /* Auth Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--white);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--bg);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .modal-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 32px;
+        }
+        .modal-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .modal-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border: none;
+            background: var(--bg);
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .modal-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .toast {
+            background: var(--accent);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+        }
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        /* User Dropdown */
+        .user-menu {
+            position: relative;
+        }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            min-width: 200px;
+            overflow: hidden;
+        }
+        .user-dropdown.active { display: block; }
+        .user-dropdown-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .user-dropdown-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .user-dropdown-email {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 14px;
+            transition: background 0.2s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        .user-dropdown-item:hover { background: var(--bg); }
+        .user-dropdown-item.danger { color: var(--danger); }
+        .user-dropdown-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 4px 0;
+        }
+        
+        /* Orders */
+        .orders-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .order-tab {
+            padding: 8px 20px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--white);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .order-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .order-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .order-no {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .order-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .order-status.pending { background: rgba(255,149,0,0.1); color: var(--warning); }
+        .order-status.confirmed { background: rgba(0,113,227,0.1); color: var(--primary); }
+        .order-status.shipping { background: rgba(52,199,89,0.1); color: var(--success); }
+        .order-status.delivered { background: rgba(52,199,89,0.2); color: var(--success); }
+        .order-status.cancelled { background: rgba(255,59,48,0.1); color: var(--danger); }
+        .order-items {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .order-item {
+            width: 60px;
+            height: 60px;
+            background: var(--bg);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        .order-total {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        /* Address Form */
+        .address-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        /* Profile */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 32px;
+            background: linear-gradient(135deg, var(--primary), #5856d6);
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 32px;
+        }
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+        .profile-info h2 { font-size: 24px; margin-bottom: 4px; }
+        .profile-info p { opacity: 0.8; font-size: 14px; }
+        .profile-stats {
+            display: flex;
+            gap: 32px;
+            margin-left: auto;
+        }
+        .profile-stat {
+            text-align: center;
+        }
+        .profile-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .profile-stat-label {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+        
+        /* Help */
+        .help-categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .help-category {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .help-category:hover, .help-category.active {
+            border-color: var(--primary);
+        }
+        .help-category-icon { font-size: 40px; margin-bottom: 12px; }
+        .help-category-name { font-weight: 600; font-size: 15px; }
+        .help-articles { display: none; }
+        .help-articles.active { display: block; }
+        .help-article {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .help-article:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .help-article h4 { font-weight: 600; margin-bottom: 6px; }
+        .help-article p { font-size: 14px; color: var(--text-light); }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-inner { grid-template-columns: 1fr; }
+            .hero-visual { display: none; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps { grid-template-columns: repeat(2, 1fr); }
+            .steps::before { display: none; }
+            .sites-grid { grid-template-columns: repeat(3, 1fr); }
+            .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .help-categories { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 32px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .steps { grid-template-columns: 1fr; }
+            .sites-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr; }
+            .cart-item { flex-wrap: wrap; }
+            .cart-item-price { margin: 12px 0; }
+            .cart-item-actions { width: 100%; justify-content: center; }
+            .profile-header { flex-wrap: wrap; }
+            .profile-stats { margin-left: 0; width: 100%; justify-content: space-around; }
+            .address-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="#" class="logo" onclick="showPage('home')">13<span>Ship</span></a>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-page="home" onclick="showPage('home')">首页</a>
+                <a href="#" class="nav-link" data-page="order" onclick="showPage('order')">我要下单</a>
+                <a href="#" class="nav-link" data-page="cart" onclick="showPage('cart')">购物车</a>
+                <a href="#" class="nav-link" data-page="help" onclick="showPage('help')">帮助中心</a>
+            </div>
+            <div class="nav-actions">
+                <a href="#" class="nav-btn" onclick="showPage('cart')">
+                    <span class="nav-btn-icon">🛒</span>
+                    <span class="nav-btn-text">购物车</span>
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <div class="user-menu" id="userMenu" style="display: none;">
+                    <div class="user-avatar" onclick="toggleUserDropdown()"></div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-dropdown-header">
+                            <div class="user-dropdown-name" id="userName"></div>
+                            <div class="user-dropdown-email" id="userEmail"></div>
+                        </div>
+                        <a class="user-dropdown-item" onclick="showPage('orders')">📦 我的订单</a>
+                        <a class="user-dropdown-item" onclick="showPage('profile')">👤 个人中心</a>
+                        <a class="user-dropdown-item" onclick="showPage('addresses')">📍 收货地址</a>
+                        <div class="user-dropdown-divider"></div>
+                        <a class="user-dropdown-item danger" onclick="logout()">🚪 退出登录</a>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="showAuthModal('login')" id="loginBtn">登录</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="page-home" class="page-section active">
+        <section class="hero">
+            <div class="container">
+                <div class="hero-inner">
+                    <div>
+                        <h1>轻松海淘<br><span>全球好物</span>一键到家</h1>
+                        <p>13Ship 是您的专业反向海淘转运平台，连接淘宝、京东、1688等中国电商平台，助您轻松购买优质中国商品，国际配送到您手中。</p>
+                        <div class="hero-btns">
+                            <a href="#" class="btn btn-primary btn-lg" onclick="showPage('order')">开始下单</a>
+                            <a href="#" class="btn btn-secondary btn-lg" onclick="showPage('help')">了解更多</a>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="hero-card">
+                            <div class="hero-card-header">
+                                <div class="hero-card-icon">🚀</div>
+                                <div>
+                                    <div class="hero-card-title">全球配送中</div>
+                                    <div class="hero-card-sub">服务覆盖 50+ 国家和地区</div>
+                                </div>
+                            </div>
+                            <div class="hero-stats">
+                                <div class="hero-stat">
+                                    <div class="hero-stat-value">50+</div>
+                                    <div class="hero-stat-label">配送国家</div>
+                                </div>
+                                <div class="hero-stat">
+                                    <div class="hero-stat-value">15-30</div>
+                                    <div class="hero-stat-label">配送天数</div>
+                                </div>
+                                <div class="hero-stat">
+                                    <div class="hero-stat-value">100K+</div>
+                                    <div class="hero-stat-label">服务用户</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">为什么选择我们</span>
+                    <h2 class="section-title">专业可靠的海淘转运服务</h2>
+                    <p class="section-desc">从下单到收货，我们提供一站式透明服务，让您的海淘之旅轻松无忧</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔗</div>
+                        <h3 class="feature-title">链接下单</h3>
+                        <p class="feature-desc">复制淘宝、京东、1688等平台的商品链接，一键提交，轻松完成采购</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏭</div>
+                        <h3 class="feature-title">仓储服务</h3>
+                        <p class="feature-desc">国内专业仓库代收商品，提供免费仓储、拆包验货、合箱打包服务</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✈️</div>
+                        <h3 class="feature-title">快速配送</h3>
+                        <p class="feature-desc">多条国际物流线路，15-30天送达，支持实时追踪物流信息</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3 class="feature-title">透明定价</h3>
+                        <p class="feature-desc">商品价格+运费+服务费明细清晰，无隐藏费用，支持多种支付方式</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">操作流程</span>
+                    <h2 class="section-title">只需简单四步</h2>
+                    <p class="section-desc">从选品到收货，全程轻松便捷</p>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <h3 class="step-title">复制链接</h3>
+                        <p class="step-desc">在淘宝/京东/1688复制商品链接</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <h3 class="step-title">提交订单</h3>
+                        <p class="step-desc">粘贴链接并填写收货地址</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <h3 class="step-title">代购仓储</h3>
+                        <p class="step-desc">我们代购并运至仓库</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <h3 class="step-title">坐等收货</h3>
+                        <p class="step-desc">国际配送到家，轻松收货</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sites">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">支持的平台</span>
+                    <h2 class="section-title">主流电商平台全覆盖</h2>
+                    <p class="section-desc">支持国内主流电商平台，品类丰富，应有尽有</p>
+                </div>
+                <div class="sites-grid">
+                    <div class="site-card" onclick="useExample('taobao')">
+                        <div class="site-logo">🛒</div>
+                        <div class="site-name">淘宝</div>
+                    </div>
+                    <div class="site-card" onclick="useExample('tmall')">
+                        <div class="site-logo">🏬</div>
+                        <div class="site-name">天猫</div>
+                    </div>
+                    <div class="site-card" onclick="useExample('jd')">
+                        <div class="site-logo">📱</div>
+                        <div class="site-name">京东</div>
+                    </div>
+                    <div class="site-card" onclick="useExample('1688')">
+                        <div class="site-logo">🏭</div>
+                        <div class="site-name">1688</div>
+                    </div>
+                    <div class="site-card" onclick="useExample('pdd')">
+                        <div class="site-logo">🛍️</div>
+                        <div class="site-name">拼多多</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">服务费用</span>
+                    <h2 class="section-title">透明合理的价格</h2>
+                    <p class="section-desc">没有隐藏费用，每一笔支出都清晰可见</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="price-card">
+                        <div class="price-name">服务费</div>
+                        <div class="price-desc">基础代购服务</div>
+                        <div class="price-amount">5<span>%</span></div>
+                        <div class="price-unit">商品价格</div>
+                        <ul class="price-features">
+                            <li>链接解析</li>
+                            <li>商品采购</li>
+                            <li>客服咨询</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary btn-block" onclick="showPage('order')">立即下单</a>
+                    </div>
+                    <div class="price-card featured">
+                        <div class="price-badge">推荐</div>
+                        <div class="price-name">标准套餐</div>
+                        <div class="price-desc">最受欢迎的选择</div>
+                        <div class="price-amount">8<span>%</span></div>
+                        <div class="price-unit">商品价格</div>
+                        <ul class="price-features">
+                            <li>基础服务全包含</li>
+                            <li>免费仓储30天</li>
+                            <li>拆包验货</li>
+                            <li>合箱打包</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary btn-block" onclick="showPage('order')">立即下单</a>
+                    </div>
+                    <div class="price-card">
+                        <div class="price-name">VIP套餐</div>
+                        <div class="price-desc">专属定制服务</div>
+                        <div class="price-amount">12<span>%</span></div>
+                        <div class="price-unit">商品价格</div>
+                        <ul class="price-features">
+                            <li>标准套餐全包含</li>
+                            <li>免费仓储60天</li>
+                            <li>优先处理</li>
+                            <li>专属客服</li>
+                        </ul>
+                        <a href="#" class="btn btn-secondary btn-block" onclick="showPage('order')">立即下单</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="container">
+                <h2>准备好开始您的海淘之旅了吗？</h2>
+                <p>注册即享首单免服务费优惠，还有更多福利等着您</p>
+                <a href="#" class="btn btn-primary btn-lg" onclick="showAuthModal('register')">立即注册</a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Order Page -->
+    <div id="page-order" class="page-section">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">我要下单</h1>
+                <p class="page-desc">复制商品链接，填写收货地址，轻松完成海淘</p>
+            </div>
+            
+            <div class="product-input-section">
+                <div class="form-group">
+                    <label class="form-label">商品链接</label>
+                    <div class="product-url-input">
+                        <input type="text" class="form-input" id="productUrl" placeholder="粘贴淘宝/京东/1688/拼多多商品链接">
+                        <button class="btn btn-primary" onclick="parseProduct()">解析商品</button>
+                    </div>
+                    <div class="product-examples">
+                        <span onclick="useExample('taobao')">🛒 淘宝示例</span>
+                        <span onclick="useExample('jd')">📱 京东示例</span>
+                        <span onclick="useExample('1688')">🏭 1688示例</span>
+                        <span onclick="useExample('pdd')">🛍️ 拼多多示例</span>
+                    </div>
+                </div>
+                
+                <div id="productPreview" style="display: none;">
+                    <div class="card">
+                        <div style="display: flex; gap: 20px;">
+                            <div style="width: 120px; height: 120px; background: var(--bg); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 48px; flex-shrink: 0;" id="previewImg">🛋️</div>
+                            <div style="flex: 1;">
+                                <h3 id="previewTitle" style="font-size: 18px; margin-bottom: 8px;"></h3>
+                                <p id="previewShop" style="color: var(--text-light); font-size: 14px; margin-bottom: 12px;"></p>
+                                <div style="display: flex; align-items: baseline; gap: 8px;">
+                                    <span id="previewPrice" style="font-size: 24px; font-weight: 700; color: var(--primary);"></span>
+                                    <span style="color: var(--text-light); font-size: 14px;">CNY</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 24px;">
+                        <div class="address-grid">
+                            <div class="form-group">
+                                <label class="form-label">收货人姓名</label>
+                                <input type="text" class="form-input" id="recipientName" placeholder="您的姓名">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">联系电话</label>
+                                <input type="tel" class="form-input" id="recipientPhone" placeholder="手机号码">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">收货地址</label>
+                            <input type="text" class="form-input" id="recipientAddress" placeholder="详细街道地址">
+                        </div>
+                        <div class="address-grid">
+                            <div class="form-group">
+                                <label class="form-label">国家/地区</label>
+                                <select class="form-input" id="shippingCountry" onchange="calculateShipping()">
+                                    <option value="">请选择</option>
+                                    <option value="香港">香港</option>
+                                    <option value="澳门">澳门</option>
+                                    <option value="台湾">台湾</option>
+                                    <option value="日本">日本</option>
+                                    <option value="韩国">韩国</option>
+                                    <option value="新加坡">新加坡</option>
+                                    <option value="美国">美国</option>
+                                    <option value="加拿大">加拿大</option>
+                                    <option value="澳大利亚">澳大利亚</option>
+                                    <option value="英国">英国</option>
+                                    <option value="德国">德国</option>
+                                    <option value="法国">法国</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">城市</label>
+                                <input type="text" class="form-input" id="shippingCity" placeholder="城市名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">备注说明</label>
+                            <textarea class="form-input form-textarea" id="orderNotes" placeholder="特殊要求或备注信息"></textarea>
+                        </div>
+                        
+                        <div id="shippingInfo" class="card" style="margin-bottom: 24px; display: none;">
+                            <h4 style="margin-bottom: 16px;">📦 运费估算</h4>
+                            <div id="shippingDetails" style="color: var(--text-light); font-size: 14px;"></div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                            <button class="btn btn-secondary" onclick="addToCart()">加入购物车</button>
+                            <button class="btn btn-primary btn-lg" onclick="createOrder()">立即下单</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Page -->
+    <div id="page-cart" class="page-section">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">购物车</h1>
+                <p class="page-desc">管理您的待下单商品</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 360px; gap: 32px;">
+                <div>
+                    <div id="cartItems" class="cart-items"></div>
+                    <div id="emptyCart" class="empty-state">
+                        <div class="empty-icon">🛒</div>
+                        <h3 class="empty-title">购物车是空的</h3>
+                        <p class="empty-desc">去挑选心仪的商品吧</p>
+                        <button class="btn btn-primary" onclick="showPage('order')">去下单</button>
+                    </div>
+                </div>
+                
+                <div id="cartSummary" class="cart-summary" style="display: none;">
+                    <h3 class="card-title">订单摘要</h3>
+                    <div class="summary-row">
+                        <span class="label">商品小计</span>
+                        <span id="cartSubtotal">¥0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">服务费 (8%)</span>
+                        <span id="cartServiceFee">¥0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">运费</span>
+                        <span id="cartShippingFee">待计算</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>合计</span>
+                        <span id="cartTotal">¥0.00</span>
+                    </div>
+                    <button class="btn btn-primary btn-block btn-lg" onclick="checkout()">去结算</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Orders Page -->
+    <div id="page-orders" class="page-section">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">我的订单</h1>
+                <p class="page-desc">查看和管理您的所有订单</p>
+            </div>
+            
+            <div class="orders-tabs">
+                <button class="order-tab active" onclick="filterOrders('all')">全部</button>
+                <button class="order-tab" onclick="filterOrders('pending')">待处理</button>
+                <button class="order-tab" onclick="filterOrders('confirmed')">已确认</button>
+                <button class="order-tab" onclick="filterOrders('shipping')">运输中</button>
+                <button class="order-tab" onclick="filterOrders('delivered')">已完成</button>
+            </div>
+            
+            <div id="ordersList"></div>
+            <div id="emptyOrders" class="empty-state">
+                <div class="empty-icon">📦</div>
+                <h3 class="empty-title">暂无订单</h3>
+                <p class="empty-desc">开始您的第一次海淘吧</p>
+                <button class="btn btn-primary" onclick="showPage('order')">去下单</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="page-profile" class="page-section">
+        <div class="container">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">U</div>
+                <div class="profile-info">
+                    <h2 id="profileName">用户</h2>
+                    <p id="profileEmail">email@example.com</p>
+                </div>
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="profile-stat-value" id="profileOrderCount">0</div>
+                        <div class="profile-stat-label">订单数</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-value" id="profileTotalSpent">¥0</div>
+                        <div class="profile-stat-label">累计消费</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                <div class="card">
+                    <h3 class="card-title">个人信息</h3>
+                    <form id="profileForm" onsubmit="updateProfile(event)">
+                        <div class="form-group">
+                            <label class="form-label">姓名</label>
+                            <input type="text" class="form-input" id="profileInputName">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">手机号</label>
+                            <input type="tel" class="form-input" id="profileInputPhone">
+                        </div>
+                        <button type="submit" class="btn btn-primary">保存修改</button>
+                    </form>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">账户设置</h3>
+                    <div class="form-group">
+                        <label class="form-label">界面语言</label>
+                        <select class="form-input" id="profileLanguage">
+                            <option value="zh-CN">简体中文</option>
+                            <option value="zh-TW">繁体中文</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">结算货币</label>
+                        <select class="form-input" id="profileCurrency">
+                            <option value="CNY">人民币 (CNY)</option>
+                            <option value="USD">美元 (USD)</option>
+                            <option value="EUR">欧元 (EUR)</option>
+                            <option value="GBP">英镑 (GBP)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Addresses Page -->
+    <div id="page-addresses" class="page-section">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">收货地址</h1>
+                <p class="page-desc">管理您的收货地址</p>
+            </div>
+            
+            <button class="btn btn-primary" onclick="showAddressForm()" style="margin-bottom: 24px;">+ 添加新地址</button>
+            
+            <div id="addressForm" class="card" style="display: none; margin-bottom: 24px;">
+                <h3 class="card-title">添加收货地址</h3>
+                <form onsubmit="saveAddress(event)">
+                    <div class="address-grid">
+                        <div class="form-group">
+                            <label class="form-label">收货人</label>
+                            <input type="text" class="form-input" id="addrName" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">电话</label>
+                            <input type="tel" class="form-input" id="addrPhone" required>
+                        </div>
+                    </div>
+                    <div class="address-grid">
+                        <div class="form-group">
+                            <label class="form-label">国家/地区</label>
+                            <select class="form-input" id="addrCountry" required>
+                                <option value="">选择国家</option>
+                                <option value="香港">香港</option>
+                                <option value="澳门">澳门</option>
+                                <option value="台湾">台湾</option>
+                                <option value="日本">日本</option>
+                                <option value="韩国">韩国</option>
+                                <option value="新加坡">新加坡</option>
+                                <option value="美国">美国</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">城市</label>
+                            <input type="text" class="form-input" id="addrCity" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">详细地址</label>
+                        <textarea class="form-input" id="addrAddress" rows="2" required></textarea>
+                    </div>
+                    <div style="display: flex; gap: 12px;">
+                        <button type="submit" class="btn btn-primary">保存地址</button>
+                        <button type="button" class="btn btn-secondary" onclick="hideAddressForm()">取消</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="addressesList"></div>
+        </div>
+    </div>
+
+    <!-- Help Page -->
+    <div id="page-help" class="page-section">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">帮助中心</h1>
+                <p class="page-desc">常见问题与使用指南</p>
+            </div>
+            
+            <div class="help-categories">
+                <div class="help-category active" onclick="switchHelpCategory(this, 'guide')">
+                    <div class="help-category-icon">📖</div>
+                    <div class="help-category-name">新手指南</div>
+                </div>
+                <div class="help-category" onclick="switchHelpCategory(this, 'shipping')">
+                    <div class="help-category-icon">🚚</div>
+                    <div class="help-category-name">配送说明</div>
+                </div>
+                <div class="help-category" onclick="switchHelpCategory(this, 'payment')">
+                    <div class="help-category-icon">💳</div>
+                    <div class="help-category-name">支付问题</div>
+                </div>
+                <div class="help-category" onclick="switchHelpCategory(this, 'service')">
+                    <div class="help-category-icon">💬</div>
+                    <div class="help-category-name">售后服务</div>
+                </div>
+            </div>
+            
+            <div id="help-guide" class="help-articles active">
+                <div class="help-article">
+                    <h4>如何注册账号？</h4>
+                    <p>点击页面右上角的"注册"按钮，填写邮箱和密码即可完成注册。</p>
+                </div>
+                <div class="help-article">
+                    <h4>支持哪些支付方式？</h4>
+                    <p>我们支持 PayPal、信用卡、银行转账等多种支付方式。</p>
+                </div>
+                <div class="help-article">
+                    <h4>如何追踪订单？</h4>
+                    <p>登录后进入"我的订单"，点击订单可查看详细物流信息。</p>
+                </div>
+                <div class="help-article">
+                    <h4>运费如何计算？</h4>
+                    <p>运费根据商品重量、体积和目的地国家计算，下单前可查看预估运费。</p>
+                </div>
+            </div>
+            
+            <div id="help-shipping" class="help-articles">
+                <div class="help-article">
+                    <h4>配送需要多长时间？</h4>
+                    <p>一般情况下，15-30个工作日送达，具体时间取决于目的地。</p>
+                </div>
+                <div class="help-article">
+                    <h4>可以运送到哪些国家？</h4>
+                    <p>我们支持全球50多个国家和地区的配送服务。</p>
+                </div>
+                <div class="help-article">
+                    <h4>是否提供包税服务？</h4>
+                    <p>部分线路支持包税服务，详情请咨询客服。</p>
+                </div>
+            </div>
+            
+            <div id="help-payment" class="help-articles">
+                <div class="help-article">
+                    <h4>支持哪些货币结算？</h4>
+                    <p>支持人民币、美元、欧元、英镑、日元等多种货币。</p>
+                </div>
+                <div class="help-article">
+                    <h4>如何申请退款？</h4>
+                    <p>如有问题，请联系客服申请退款，我们将在3-5个工作日内处理。</p>
+                </div>
+            </div>
+            
+            <div id="help-service" class="help-articles">
+                <div class="help-article">
+                    <h4>商品破损怎么办？</h4>
+                    <p>请在收货后24小时内联系我们，提供照片证据，我们会协助处理。</p>
+                </div>
+                <div class="help-article">
+                    <h4>如何联系客服？</h4>
+                    <p>可通过在线客服、邮件或电话联系我们，工作时间9:00-21:00。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo" onclick="showPage('home')">13<span>Ship</span></a>
+                    <p>您的专业反向海淘转运平台，连接中国优质电商，让全球购物更简单。</p>
+                </div>
+                <div>
+                    <h4 class="footer-title">服务支持</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="showPage('help')">帮助中心</a></li>
+                        <li><a href="#">配送说明</a></li>
+                        <li><a href="#">常见问题</a></li>
+                        <li><a href="#">联系客服</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">关于我们</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">公司介绍</a></li>
+                        <li><a href="#">服务条款</a></li>
+                        <li><a href="#">隐私政策</a></li>
+                        <li><a href="#">加入我们</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">联系方式</h4>
+                    <ul class="footer-links">
+                        <li>📧 support@13ship.com</li>
+                        <li>📞 +1 234 567 890</li>
+                        <li>💬 在线客服</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 13Ship. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeAuthModal()">×</button>
+            <h2 class="modal-title" id="authTitle">登录</h2>
+            <p class="modal-subtitle" id="authSubtitle">欢迎回到 13Ship</p>
+            <div class="modal-tabs">
+                <button class="modal-tab active" onclick="switchAuthTab('login')">登录</button>
+                <button class="modal-tab" onclick="switchAuthTab('register')">注册</button>
+            </div>
+            <form id="authForm" onsubmit="handleAuth(event)">
+                <div class="form-group" id="nameGroup" style="display: none;">
+                    <label class="form-label">姓名</label>
+                    <input type="text" class="form-input" id="authName" placeholder="您的姓名">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">邮箱</label>
+                    <input type="email" class="form-input" id="authEmail" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">密码</label>
+                    <input type="password" class="form-input" id="authPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-lg" id="authSubmit">登录</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ==================== Data Store ====================
+        const STORE_KEY = '13ship_data';
+        
+        function getStore() {
+            const data = localStorage.getItem(STORE_KEY);
+            if (data) return JSON.parse(data);
+            return {
+                user: null,
+                cart: [],
+                orders: [],
+                addresses: [],
+                currencies: {
+                    CNY: 1,
+                    USD: 7.24,
+                    EUR: 7.85,
+                    GBP: 9.15
+                },
+                shippingRules: [
+                    { country: '香港', firstPrice: 15, continuePrice: 8 },
+                    { country: '澳门', firstPrice: 18, continuePrice: 10 },
+                    { country: '台湾', firstPrice: 25, continuePrice: 12 },
+                    { country: '日本', firstPrice: 35, continuePrice: 18 },
+                    { country: '韩国', firstPrice: 30, continuePrice: 15 },
+                    { country: '新加坡', firstPrice: 40, continuePrice: 20 },
+                    { country: '美国', firstPrice: 55, continuePrice: 28 },
+                    { country: '加拿大', firstPrice: 55, continuePrice: 28 },
+                    { country: '澳大利亚', firstPrice: 60, continuePrice: 30 },
+                    { country: '英国', firstPrice: 65, continuePrice: 32 },
+                    { country: '德国', firstPrice: 65, continuePrice: 32 },
+                    { country: '其他', firstPrice: 85, continuePrice: 42 }
+                ]
+            };
+        }
+        
+        function saveStore(data) {
+            localStorage.setItem(STORE_KEY, JSON.stringify(data));
+        }
+        
+        let store = getStore();
+        
+        // ==================== Current Product State ====================
+        let currentProduct = null;
+        
+        // ==================== Initialize ====================
+        function init() {
+            updateUI();
+            updateCartCount();
+            if (store.user) {
+                showLoggedInUI();
+            }
+        }
+        
+        function updateUI() {
+            updateCartCount();
+            renderCart();
+            renderOrders();
+            renderAddresses();
+            updateProfileUI();
+        }
+        
+        function updateCartCount() {
+            const count = store.cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+        
+        // ==================== Navigation ====================
+        function showPage(page) {
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === page) link.classList.add('active');
+            });
+            
+            // Show/hide pages
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById('page-' + page).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // ==================== Auth ====================
+        function showAuthModal(mode) {
+            document.getElementById('authModal').classList.add('active');
+            switchAuthTab(mode);
+        }
+        
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+        
+        function switchAuthTab(mode) {
+            const tabs = document.querySelectorAll('.modal-tab');
+            tabs.forEach((tab, i) => {
+                tab.classList.toggle('active', (i === 0 && mode === 'login') || (i === 1 && mode === 'register'));
+            });
+            
+            const title = document.getElementById('authTitle');
+            const subtitle = document.getElementById('authSubtitle');
+            const submit = document.getElementById('authSubmit');
+            const nameGroup = document.getElementById('nameGroup');
+            
+            if (mode === 'login') {
+                title.textContent = '登录';
+                subtitle.textContent = '欢迎回到 13Ship';
+                submit.textContent = '登录';
+                nameGroup.style.display = 'none';
+            } else {
+                title.textContent = '注册';
+                subtitle.textContent = '创建新账号，开始海淘之旅';
+                submit.textContent = '注册';
+                nameGroup.style.display = 'block';
+            }
+        }
+        
+        function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            const name = document.getElementById('authName').value;
+            const isRegister = document.getElementById('authTitle').textContent === '注册';
+            
+            if (isRegister) {
+                // Check if email exists
+                const existing = store.users?.find(u => u.email === email);
+                if (existing) {
+                    showToast('该邮箱已注册', 'error');
+                    return;
+                }
+                
+                const user = {
+                    id: Date.now(),
+                    email,
+                    name: name || email.split('@')[0],
+                    level: 'normal',
+                    balance: 0,
+                    totalSpent: 0,
+                    referralCode: Math.random().toString(36).substring(2, 8).toUpperCase(),
+                    language: 'zh-CN',
+                    currency: 'CNY',
+                    createdAt: new Date().toISOString()
+                };
+                
+                if (!store.users) store.users = [];
+                store.users.push(user);
+                store.user = user;
+                showToast('注册成功！');
+            } else {
+                // Login - check credentials
+                const user = store.users?.find(u => u.email === email);
+                if (!user) {
+                    showToast('用户不存在，请先注册', 'error');
+                    return;
+                }
+                store.user = user;
+                showToast('登录成功！');
+            }
+            
+            saveStore(store);
+            closeAuthModal();
+            showLoggedInUI();
+            updateUI();
+        }
+        
+        function logout() {
+            store.user = null;
+            saveStore(store);
+            showLoggedOutUI();
+            showToast('已退出登录');
+            showPage('home');
+        }
+        
+        function showLoggedInUI() {
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('userMenu').style.display = 'block';
+            
+            const user = store.user;
+            document.querySelector('.user-avatar').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('userEmail').textContent = user.email;
+        }
+        
+        function showLoggedOutUI() {
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('userMenu').style.display = 'none';
+        }
+        
+        function toggleUserDropdown() {
+            document.getElementById('userDropdown').classList.toggle('active');
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.user-menu')) {
+                document.getElementById('userDropdown')?.classList.remove('active');
+            }
+        });
+        
+        // ==================== Product Parsing ====================
+        function useExample(platform) {
+            const examples = {
+                taobao: 'https://item.taobao.com/item.htm?id=123456789',
+                tmall: 'https://detail.tmall.com/item.htm?id=987654321',
+                jd: 'https://item.jd.com/100012345678.html',
+                '1688': 'https://detail.1688.com/offer/1234567890.html',
+                pdd: 'https://mobile.yangkeduo.com/goods.html?goods_id=123456789'
+            };
+            
+            document.getElementById('productUrl').value = examples[platform];
+            parseProduct();
+        }
+        
+        function parseProduct() {
+            const url = document.getElementById('productUrl').value;
+            if (!url) {
+                showToast('请输入商品链接', 'error');
+                return;
+            }
+            
+            // Simulate product parsing
+            let site = 'other';
+            let emoji = '📦';
+            if (url.includes('taobao')) { site = 'taobao'; emoji = '🛒'; }
+            else if (url.includes('tmall')) { site = 'tmall'; emoji = '🏬'; }
+            else if (url.includes('jd.')) { site = 'jd'; emoji = '📱'; }
+            else if (url.includes('1688')) { site = '1688'; emoji = '🏭'; }
+            else if (url.includes('yangkeduo') || url.includes('pdd')) { site = 'pdd'; emoji = '🛍️'; }
+            
+            currentProduct = {
+                sourceUrl: url,
+                sourceSite: site,
+                title: getMockProductTitle(site),
+                price: Math.round(Math.random() * 500 + 50),
+                imageUrl: emoji,
+                shop: getMockShopName(site)
+            };
+            
+            // Show preview
+            document.getElementById('productPreview').style.display = 'block';
+            document.getElementById('previewImg').textContent = emoji;
+            document.getElementById('previewTitle').textContent = currentProduct.title;
+            document.getElementById('previewShop').textContent = '🏪 ' + currentProduct.shop;
+            document.getElementById('previewPrice').textContent = '¥' + currentProduct.price.toFixed(2);
+            
+            showToast('商品解析成功！');
+        }
+        
+        function getMockProductTitle(site) {
+            const titles = {
+                taobao: '【精选】现代简约布艺沙发三人位 客厅家具 2024新款',
+                tmall: '天猫精选 轻奢真皮沙发 电动调节 智能家居',
+                jd: '京东自营 实木餐桌椅组合 简约现代 6人位 家用',
+                '1688': '1688工厂直销 意式极简茶几 创意设计 大理石台面',
+                pdd: '拼多多爆款 北欧风格床头柜 收纳储物 静音抽屉',
+                other: '精选好物 品质保证 值得信赖'
+            };
+            return titles[site] || titles.other;
+        }
+        
+        function getMockShopName(site) {
+            const shops = {
+                taobao: '优品生活家居馆',
+                tmall: '尚品宅配官方旗舰店',
+                jd: '京东居家自营店',
+                '1688': '深圳市xxx家具有限公司',
+                pdd: '时尚家居直销店',
+                other: '优质商家'
+            };
+            return shops[site] || shops.other;
+        }
+        
+        function calculateShipping() {
+            const country = document.getElementById('shippingCountry').value;
+            if (!country) {
+                document.getElementById('shippingInfo').style.display = 'none';
+                return;
+            }
+            
+            const rule = store.shippingRules.find(r => r.country === country) || store.shippingRules[store.shippingRules.length - 1];
+            const estimate = currentProduct ? Math.round((rule.firstPrice + currentProduct.price * 0.08) * 100) / 100 : rule.firstPrice;
+            
+            document.getElementById('shippingInfo').style.display = 'block';
+            document.getElementById('shippingDetails').innerHTML = `
+                <p>目的地：<strong>${country}</strong></p>
+                <p>首重费用：<strong>¥${rule.firstPrice}</strong></p>
+                <p>预估运费：约 <strong style="color: var(--primary);">¥${estimate.toFixed(2)}</strong></p>
+                <p>预计配送：15-30 个工作日</p>
+            `;
+        }
+        
+        // ==================== Cart ====================
+        function addToCart() {
+            if (!currentProduct) {
+                showToast('请先解析商品', 'error');
+                return;
+            }
+            
+            if (!store.user) {
+                showToast('请先登录', 'error');
+                showAuthModal('login');
+                return;
+            }
+            
+            const item = {
+                id: Date.now(),
+                ...currentProduct,
+                quantity: 1,
+                specs: '',
+                notes: document.getElementById('orderNotes')?.value || '',
+                addedAt: new Date().toISOString()
+            };
+            
+            // Check if already in cart
+            const existing = store.cart.find(i => i.sourceUrl === item.sourceUrl);
+            if (existing) {
+                existing.quantity += 1;
+                showToast('商品数量已增加');
+            } else {
+                store.cart.push(item);
+                showToast('已加入购物车', 'success');
+            }
+            
+            saveStore(store);
+            updateCartCount();
+            renderCart();
+        }
+        
+        function renderCart() {
+            const itemsEl = document.getElementById('cartItems');
+            const emptyEl = document.getElementById('emptyCart');
+            const summaryEl = document.getElementById('cartSummary');
+            
+            if (store.cart.length === 0) {
+                itemsEl.innerHTML = '';
+                emptyEl.style.display = 'block';
+                summaryEl.style.display = 'none';
+                return;
+            }
+            
+            emptyEl.style.display = 'none';
+            summaryEl.style.display = 'block';
+            
+            itemsEl.innerHTML = store.cart.map(item => `
+                <div class="cart-item">
+                    <div class="cart-item-img">${item.imageUrl}</div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${item.title}</div>
+                        <div class="cart-item-meta">${item.shop || item.sourceSite}</div>
+                    </div>
+                    <div class="cart-item-price">¥${item.price.toFixed(2)}</div>
+                    <div class="cart-item-actions">
+                        <button class="qty-btn" onclick="updateCartQty(${item.id}, -1)">−</button>
+                        <span class="qty-value">${item.quantity}</span>
+                        <button class="qty-btn" onclick="updateCartQty(${item.id}, 1)">+</button>
+                        <button class="delete-btn" onclick="removeFromCart(${item.id})">×</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Update summary
+            const subtotal = store.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const serviceFee = Math.round(subtotal * 0.08 * 100) / 100;
+            
+            document.getElementById('cartSubtotal').textContent = '¥' + subtotal.toFixed(2);
+            document.getElementById('cartServiceFee').textContent = '¥' + serviceFee.toFixed(2);
+            document.getElementById('cartTotal').textContent = '¥' + (subtotal + serviceFee).toFixed(2);
+        }
+        
+        function updateCartQty(id, delta) {
+            const item = store.cart.find(i => i.id === id);
+            if (item) {
+                item.quantity = Math.max(1, item.quantity + delta);
+                saveStore(store);
+                updateCartCount();
+                renderCart();
+            }
+        }
+        
+        function removeFromCart(id) {
+            store.cart = store.cart.filter(i => i.id !== id);
+            saveStore(store);
+            updateCartCount();
+            renderCart();
+            showToast('已移除商品');
+        }
+        
+        function checkout() {
+            if (!store.user) {
+                showToast('请先登录', 'error');
+                showAuthModal('login');
+                return;
+            }
+            
+            if (store.cart.length === 0) {
+                showToast('购物车是空的', 'error');
+                return;
+            }
+            
+            if (store.addresses.length === 0) {
+                showToast('请先添加收货地址', 'error');
+                showPage('addresses');
+                return;
+            }
+            
+            // Create order
+            const subtotal = store.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const serviceFee = Math.round(subtotal * 0.08 * 100) / 100;
+            const shippingFee = 50; // Placeholder
+            const total = subtotal + serviceFee + shippingFee;
+            
+            const order = {
+                id: Date.now(),
+                orderNo: 'ORD' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + Math.random().toString(36).substring(2, 8).toUpperCase(),
+                items: [...store.cart],
+                subtotal,
+                serviceFee,
+                shippingFee,
+                discount: 0,
+                total,
+                status: 'pending',
+                address: store.addresses.find(a => a.isDefault) || store.addresses[0],
+                createdAt: new Date().toISOString()
+            };
+            
+            store.orders.unshift(order);
+            store.cart = [];
+            
+            // Update user stats
+            if (store.user) {
+                store.user.totalSpent = (store.user.totalSpent || 0) + total;
+            }
+            
+            saveStore(store);
+            updateCartCount();
+            renderCart();
+            renderOrders();
+            
+            showToast('订单创建成功！', 'success');
+            showPage('orders');
+        }
+        
+        // ==================== Orders ====================
+        function renderOrders() {
+            const listEl = document.getElementById('ordersList');
+            const emptyEl = document.getElementById('emptyOrders');
+            
+            const orders = store.orders || [];
+            
+            if (orders.length === 0) {
+                listEl.innerHTML = '';
+                emptyEl.style.display = 'block';
+                return;
+            }
+            
+            emptyEl.style.display = 'none';
+            
+            listEl.innerHTML = orders.map(order => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <span class="order-no">${order.orderNo}</span>
+                            <span style="color: var(--text-light); font-size: 13px; margin-left: 12px;">${new Date(order.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        <span class="order-status ${order.status}">${getStatusText(order.status)}</span>
+                    </div>
+                    <div class="order-items">
+                        ${order.items.map(item => `
+                            <div class="order-item" title="${item.title}">${item.imageUrl}</div>
+                        `).join('')}
+                    </div>
+                    <div class="order-footer">
+                        <span style="color: var(--text-light);">共 ${order.items.length} 件商品</span>
+                        <span class="order-total">¥${order.total.toFixed(2)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function getStatusText(status) {
+            const texts = {
+                pending: '待处理',
+                confirmed: '已确认',
+                purchasing: '采购中',
+                in_warehouse: '已到仓库',
+                shipping: '运输中',
+                delivered: '已完成',
+                cancelled: '已取消'
+            };
+            return texts[status] || status;
+        }
+        
+        function filterOrders(status) {
+            const tabs = document.querySelectorAll('.order-tab');
+            tabs.forEach(tab => {
+                tab.classList.toggle('active', tab.textContent.includes(status === 'all' ? '全部' : getStatusText(status)));
+            });
+            
+            // For simplicity, show all orders
+            // In a real app, filter by status
+            renderOrders();
+        }
+        
+        // ==================== Addresses ====================
+        function renderAddresses() {
+            const listEl = document.getElementById('addressesList');
+            const addresses = store.addresses || [];
+            
+            if (addresses.length === 0) {
+                listEl.innerHTML = '<div class="empty-state"><div class="empty-icon">📍</div><h3 class="empty-title">暂无收货地址</h3><p class="empty-desc">添加您的第一个收货地址</p></div>';
+                return;
+            }
+            
+            listEl.innerHTML = addresses.map(addr => `
+                <div class="card" style="margin-bottom: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <div style="font-weight: 600; margin-bottom: 4px;">
+                                ${addr.name}
+                                ${addr.isDefault ? '<span style="background: var(--primary); color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 8px;">默认</span>' : ''}
+                            </div>
+                            <div style="color: var(--text-light); font-size: 14px;">
+                                ${addr.phone}<br>
+                                ${addr.country} ${addr.city}<br>
+                                ${addr.address}
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            ${!addr.isDefault ? `<button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="setDefaultAddress(${addr.id})">设为默认</button>` : ''}
+                            <button class="delete-btn" onclick="deleteAddress(${addr.id})">×</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function showAddressForm() {
+            document.getElementById('addressForm').style.display = 'block';
+        }
+        
+        function hideAddressForm() {
+            document.getElementById('addressForm').style.display = 'none';
+            document.getElementById('addrName').value = '';
+            document.getElementById('addrPhone').value = '';
+            document.getElementById('addrCountry').value = '';
+            document.getElementById('addrCity').value = '';
+            document.getElementById('addrAddress').value = '';
+        }
+        
+        function saveAddress(e) {
+            e.preventDefault();
+            
+            const address = {
+                id: Date.now(),
+                name: document.getElementById('addrName').value,
+                phone: document.getElementById('addrPhone').value,
+                country: document.getElementById('addrCountry').value,
+                city: document.getElementById('addrCity').value,
+                address: document.getElementById('addrAddress').value,
+                isDefault: (store.addresses || []).length === 0
+            };
+            
+            if (!store.addresses) store.addresses = [];
+            store.addresses.push(address);
+            
+            saveStore(store);
+            hideAddressForm();
+            renderAddresses();
+            showToast('地址保存成功！', 'success');
+        }
+        
+        function setDefaultAddress(id) {
+            store.addresses.forEach(addr => {
+                addr.isDefault = addr.id === id;
+            });
+            saveStore(store);
+            renderAddresses();
+            showToast('默认地址已更新');
+        }
+        
+        function deleteAddress(id) {
+            store.addresses = store.addresses.filter(a => a.id !== id);
+            saveStore(store);
+            renderAddresses();
+            showToast('地址已删除');
+        }
+        
+        // ==================== Profile ====================
+        function updateProfileUI() {
+            if (!store.user) return;
+            
+            const user = store.user;
+            document.getElementById('profileAvatar').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('profileName').textContent = user.name;
+            document.getElementById('profileEmail').textContent = user.email;
+            document.getElementById('profileInputName').value = user.name;
+            document.getElementById('profileInputPhone').value = user.phone || '';
+            document.getElementById('profileLanguage').value = user.language || 'zh-CN';
+            document.getElementById('profileCurrency').value = user.currency || 'CNY';
+            
+            const orderCount = (store.orders || []).length;
+            const totalSpent = (store.orders || []).reduce((sum, o) => sum + o.total, 0);
+            document.getElementById('profileOrderCount').textContent = orderCount;
+            document.getElementById('profileTotalSpent').textContent = '¥' + totalSpent.toFixed(0);
+        }
+        
+        function updateProfile(e) {
+            e.preventDefault();
+            
+            if (store.user) {
+                store.user.name = document.getElementById('profileInputName').value;
+                store.user.phone = document.getElementById('profileInputPhone').value;
+                store.user.language = document.getElementById('profileLanguage').value;
+                store.user.currency = document.getElementById('profileCurrency').value;
+                
+                saveStore(store);
+                updateProfileUI();
+                showLoggedInUI();
+                showToast('资料已更新', 'success');
+            }
+        }
+        
+        // ==================== Create Direct Order ====================
+        function createOrder() {
+            if (!currentProduct) {
+                showToast('请先解析商品', 'error');
+                return;
+            }
+            
+            if (!store.user) {
+                showToast('请先登录', 'error');
+                showAuthModal('login');
+                return;
+            }
+            
+            const recipientName = document.getElementById('recipientName').value;
+            const recipientPhone = document.getElementById('recipientPhone').value;
+            const recipientAddress = document.getElementById('recipientAddress').value;
+            const country = document.getElementById('shippingCountry').value;
+            const city = document.getElementById('shippingCity').value;
+            const notes = document.getElementById('orderNotes').value;
+            
+            if (!recipientName || !recipientPhone || !recipientAddress || !country) {
+                showToast('请填写完整的收货信息', 'error');
+                return;
+            }
+            
+            const subtotal = currentProduct.price;
+            const serviceFee = Math.round(subtotal * 0.08 * 100) / 100;
+            const shippingFee = 50;
+            const total = subtotal + serviceFee + shippingFee;
+            
+            const order = {
+                id: Date.now(),
+                orderNo: 'ORD' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + Math.random().toString(36).substring(2, 8).toUpperCase(),
+                items: [{ ...currentProduct }],
+                subtotal,
+                serviceFee,
+                shippingFee,
+                discount: 0,
+                total,
+                status: 'pending',
+                address: { name: recipientName, phone: recipientPhone, country, city, address: recipientAddress },
+                notes,
+                createdAt: new Date().toISOString()
+            };
+            
+            store.orders.unshift(order);
+            
+            if (store.user) {
+                store.user.totalSpent = (store.user.totalSpent || 0) + total;
+            }
+            
+            saveStore(store);
+            
+            // Reset form
+            document.getElementById('productPreview').style.display = 'none';
+            document.getElementById('productUrl').value = '';
+;
+            currentProduct = null;
+            
+            showToast('订单创建成功！', 'success');
+            showPage('orders');
+        }
+        
+        // ==================== Help ====================
+        function switchHelpCategory(el, category) {
+            document.querySelectorAll('.help-category').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            
+            document.querySelectorAll('.help-articles').forEach(a => a.classList.remove('active'));
+            document.getElementById('help-' + category).classList.add('active');
+        }
+        
+        // ==================== Toast ====================
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            toast.textContent = message;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        // ==================== Initialize ====================
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13Ship - 国际家具海淘转运平台</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0071e3;
+            --primary-dark: #0077ed;
+            --accent: #1d1d1f;
+            --success: #34c759;
+            --warning: #ff9500;
+            --danger: #ff3b30;
+            --text: #1d1d1f;
+            --text-light: #86868b;
+            --bg: #f5f5f7;
+            --white: #ffffff;
+            --border: #d2d2d7;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background: var(--white);
+            backdrop-filter: saturate(180%) blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            height: 56px;
+            gap: 24px;
+        }
+        .logo {
+            text-decoration: none;
+            white-space: nowrap;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .logo span { color: var(--primary); }
+        
+        .nav-actions {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            margin-left: auto;
+        }
+        .nav-action {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            position: relative;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 400;
+            transition: color 0.2s;
+            background: none;
+            border: none;
+            text-decoration: none;
+        }
+        .nav-action:hover { color: var(--primary); }
+        .nav-action-icon { font-size: 20px; }
+        .nav-action-text { font-size: 12px; }
+        .cart-count {
+            position: absolute;
+            top: -6px;
+            right: -10px;
+            background: var(--danger);
+            color: white;
+            font-size: 10px;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            padding: 0 4px;
+        }
+        
+        /* Hero Section with Banner */
+        .hero {
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://cdn.hailuoai.com/mcp/cdn_upload/508826866644029440/395742527459982/1778226943_7460ac63.png') center center / cover no-repeat;
+            opacity: 0.15;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(to top, var(--bg), transparent);
+        }
+        .hero-content { 
+            max-width: 800px; 
+            position: relative; 
+            z-index: 2;
+        }
+        
+        .hero-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            object-fit: cover;
+        }
+        
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+        .hero p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 30px;
+        }
+        
+        /* Search Bar */
+        .search-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        .search-box {
+            display: flex;
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+        .search-input {
+            flex: 1;
+            padding: 16px 24px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            font-family: inherit;
+        }
+        .search-btn {
+            padding: 16px 32px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .search-btn:hover { background: var(--primary-dark); }
+        
+        /* Hero Stats */
+        .hero-stats {
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .hero-stat h3 { font-size: 32px; color: var(--white); font-weight: 600; }
+        .hero-stat p { font-size: 13px; color: rgba(255,255,255,0.8); font-weight: 500; }
+        
+        /* Service Menu - 4 Cards */
+        .service-menu {
+            max-width: 1400px;
+            margin: -50px auto 0;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .service-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 16px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+        .service-card h3 {
+            font-size: 18px;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        .service-card p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        .service-card.link-order .service-icon { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .service-card.custom-order .service-icon { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .service-card.transport-order .service-icon { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .service-card.large-order .service-icon { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        /* Category Tabs */
+        .cat-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 20px 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .cat-tab {
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            background: var(--white);
+            border: 1px solid var(--border);
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .cat-tab:hover { border-color: var(--primary); }
+        .cat-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .product-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+        .product-img {
+            position: relative;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 72px;
+        }
+        .product-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .product-fav {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+        .product-fav:hover { transform: scale(1.1); }
+        
+        .product-info { padding: 20px; }
+        .product-cat {
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .product-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 44px;
+        }
+        .product-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+        .product-price span {
+            font-size: 14px;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+        .product-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .product-shipping {
+            font-size: 12px;
+            color: var(--success);
+        }
+        .product-delivery {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+        
+        .add-cart-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .add-cart-btn:hover { background: var(--primary); }
+        .add-cart-btn.added {
+            background: var(--success);
+        }
+        
+        /* Cart Sidebar */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .overlay.show { 
+            display: block; 
+            opacity: 1;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -480px;
+            width: 480px;
+            max-width: 100%;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 30px rgba(0,0,0,0.2);
+            z-index: 1001;
+            transition: right 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar.open { right: 0; }
+        .sidebar-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sidebar-header h3 { font-size: 20px; color: var(--accent); }
+        .sidebar-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sidebar-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+        }
+        .cart-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        .cart-item-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            flex-shrink: 0;
+        }
+        .cart-item-info { flex: 1; }
+        .cart-item-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        .cart-item-price { font-size: 16px; font-weight: 700; color: var(--primary); }
+        .cart-item-remove { 
+            color: var(--danger); 
+            cursor: pointer; 
+            font-size: 12px; 
+            margin-top: 6px; 
+            display: inline-block;
+        }
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .cart-item-qty span {
+            font-weight: 600;
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .sidebar-footer {
+            padding: 24px;
+            border-top: 1px solid var(--border);
+            background: white;
+        }
+        .cart-summary {
+            margin-bottom: 16px;
+        }
+        .cart-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .cart-row.total {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+        .cart-checkout {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .cart-continue {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--text);
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+        .cart-empty-icon { font-size: 64px; margin-bottom: 16px; }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            z-index: 3000;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h3 { font-size: 20px; color: var(--accent); }
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg);
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .modal-body { padding: 24px; }
+        
+        /* Order Forms */
+        .form-group { margin-bottom: 16px; }
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--accent);
+        }
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-primary.success { background: var(--success); }
+        
+        /* Footer */
+        .footer {
+            background: var(--bg);
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .service-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 36px; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 28px; }
+            .hero p { font-size: 15px; }
+            .hero-stats { flex-direction: column; gap: 16px; }
+            .service-grid { grid-template-columns: 1fr; }
+            .sidebar { width: 100%; }
+            .nav-action-text { display: none; }
+            .service-menu { margin-top: -40px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="#" class="logo" onclick="showHome()">13<span>Ship</span></a>
+            <div class="nav-actions">
+                <button class="nav-action" onclick="toggleCart()">
+                    <span class="nav-action-icon">🛒</span>
+                    <span class="nav-action-text">Cart</span>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+                <button class="nav-action" id="userBtn" onclick="showUserModal()">
+                    <span class="nav-action-icon">👤</span>
+                    <span class="nav-action-text">Sign In</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div id="mainPage">
+        <!-- Hero Section with Banner -->
+        <div class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <img src="https://cdn.hailuoai.com/mcp/cdn_upload/508826866644029440/395742527459982/1778226943_7460ac63.png" alt="13Ship Logo" class="hero-logo">
+                <h1>从中国直送全球 🌏</h1>
+                <p>专业海淘转运平台 · 家具/大件/整柜 · 门到门服务</p>
+                
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="searchInput" placeholder="粘贴淘宝/1688/京东商品链接，即可自动获取商品信息">
+                        <button class="search-btn" onclick="searchProduct()">🔍 搜索</button>
+                    </div>
+                </div>
+                
+                <!-- Stats -->
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <h3>120</h3>
+                        <p>天免费仓储</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>50+</h3>
+                        <p>国家覆盖</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>10K+</h3>
+                        <p>服务客户</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 4 Service Menu Cards -->
+        <div class="service-menu">
+            <div class="service-grid">
+                <div class="service-card link-order" onclick="showOrderModal('link')">
+                    <div class="service-icon">🔗</div>
+                    <h3>贴链接下单</h3>
+                    <p>粘贴淘宝/1688/京东商品链接，快速下单</p>
+                </div>
+                <div class="service-card custom-order" onclick="showOrderModal('custom')">
+                    <div class="service-icon">🎨</div>
+                    <h3>定制订单</h3>
+                    <p>家具定制、颜色尺寸修改、批量采购</p>
+                </div>
+                <div class="service-card transport-order" onclick="showOrderModal('transport')">
+                    <div class="service-icon">📦</div>
+                    <h3>转运订单</h3>
+                    <p>仓库代收、合并打包、灵活转运</p>
+                </div>
+                <div class="service-card large-order" onclick="showOrderModal('large')">
+                    <div class="service-icon">🚢</div>
+                    <h3>大件订单</h3>
+                    <p>整柜海运、拼柜服务、FBA头程</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Products Section -->
+        <div class="container">
+            <div class="cat-tabs" id="catTabs">
+                <div class="cat-tab active" onclick="setCategory('all', this)">全部商品</div>
+                <div class="cat-tab" onclick="setCategory('sofa', this)">🛋️ 沙发</div>
+                <div class="cat-tab" onclick="setCategory('bed', this)">🛏️ 床</div>
+                <div class="cat-tab" onclick="setCategory('table', this)">🍽️ 餐桌</div>
+                <div class="cat-tab" onclick="setCategory('chair', this)">🪑 椅子</div>
+                <div class="cat-tab" onclick="setCategory('storage', this)">🚪 储物</div>
+                <div class="cat-tab" onclick="setCategory('lighting', this)">💡 灯具</div>
+            </div>
+            
+            <div class="product-grid" id="product-grid"></div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            © 2025 13Ship. All rights reserved. | Privacy Policy | Terms of Service
+        </footer>
+    </div>
+    
+    <!-- Cart Sidebar -->
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+    <div class="sidebar" id="cart-sidebar">
+        <div class="sidebar-header">
+            <h3>🛒 购物车</h3>
+            <button class="sidebar-close" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="sidebar-items" id="cart-items">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">📭</div>
+                <p>购物车是空的</p>
+            </div>
+        </div>
+        <div class="sidebar-footer" id="cart-footer" style="display: none;">
+            <div class="cart-summary">
+                <div class="cart-row">
+                    <span>商品 (<span id="cartItemCount">0</span>)</span>
+                    <span id="cart-subtotal">¥0</span>
+                </div>
+                <div class="cart-row">
+                    <span>预计运费</span>
+                    <span id="cart-shipping">¥0</span>
+                </div>
+                <div class="cart-row total">
+                    <span>总计</span>
+                    <span id="cart-total">¥0</span>
+                </div>
+            </div>
+            <button class="cart-checkout" onclick="proceedToCheckout()">
+                去结账 →
+            </button>
+        </div>
+    </div>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+    
+    <!-- Order Modal -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="orderModalTitle">贴链接下单</h3>
+                <button class="modal-close" onclick="closeOrderModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="linkOrderForm">
+                    <div class="form-group">
+                        <label class="form-label">商品链接 *</label>
+                        <input type="url" class="form-input" id="productLink" placeholder="https://item.taobao.com/item.htm?id=...">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">商品名称</label>
+                        <input type="text" class="form-input" id="productName" placeholder="自动获取或手动输入">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">数量</label>
+                        <input type="number" class="form-input" id="productQty" value="1" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">备注说明</label>
+                        <textarea class="form-input" id="productNote" placeholder="颜色、尺寸、特殊要求等"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">您的邮箱 *</label>
+                        <input type="email" class="form-input" id="orderEmail" placeholder="用于接收报价和订单确认">
+                    </div>
+                    <button class="btn-primary" onclick="submitLinkOrder()">提交订单</button>
+                </div>
+                
+                <div id="customOrderForm" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">定制需求描述 *</label>
+                        <textarea class="form-input" id="customDesc" placeholder="请详细描述您的定制需求：产品类型、尺寸、材质、颜色、图案、数量等"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">参考图片（可选）</label>
+                        <input type="url" class="form-input" id="customImage" placeholder="上传参考图片链接">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">目标预算</label>
+                        <input type="text" class="form-input" id="customBudget" placeholder="如：$500-800">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">您的邮箱 *</label>
+                        <input type="email" class="form-input" id="customEmail" placeholder="用于接收报价和订单确认">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">联系方式（微信/WhatsApp）</label>
+                        <input type="text" class="form-input" id="customContact" placeholder="方便我们快速沟通">
+                    </div>
+                    <button class="btn-primary" onclick="submitCustomOrder()">提交定制需求</button>
+                </div>
+                
+                <div id="transportOrderForm" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">已有包裹数量</label>
+                        <input type="number" class="form-input" id="packageCount" value="1" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">预计包裹总重量</label>
+                        <input type="text" class="form-input" id="packageWeight" placeholder="如：50kg">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">从哪里来？</label>
+                        <input type="text" class="form-input" id="fromAddress" placeholder="如：广东省广州市">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">寄送到哪里？</label>
+                        <input type="text" class="form-input" id="toAddress" placeholder="如：美国纽约">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">您的邮箱 *</label>
+                        <input type="email" class="form-input" id="transportEmail" placeholder="用于接收报价和订单确认">
+                    </div>
+                    <button class="btn-primary" onclick="submitTransportOrder()">提交转运订单</button>
+                </div>
+                
+                <div id="largeOrderForm" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">货物总体积/重量</label>
+                        <input type="text" class="form-input" id="largeVolume" placeholder="如：20CBM / 5吨">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">货物类型</label>
+                        <input type="text" class="form-input" id="largeType" placeholder="如：家具、机器、建材">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">起运港</label>
+                        <input type="text" class="form-input" id="largeFrom" placeholder="如：广州港 / 深圳港">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">目的港</label>
+                        <input type="text" class="form-input" id="largeTo" placeholder="如：美国洛杉矶港">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">您的邮箱 *</label>
+                        <input type="email" class="form-input" id="largeEmail" placeholder="用于接收报价和订单确认">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">联系方式（电话/微信）</label>
+                        <input type="text" class="form-input" id="largeContact" placeholder="方便我们快速沟通">
+                    </div>
+                    <button class="btn-primary" onclick="submitLargeOrder()">提交大件订单</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- User Auth Modal -->
+    <div class="modal-overlay" id="userModal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 id="userModalTitle">登录 / 注册</h3>
+                <button class="modal-close" onclick="closeUserModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="loginSection">
+                    <div class="form-group">
+                        <label class="form-label">邮箱</label>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">密码</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="••••••••">
+                    </div>
+                    <button class="btn-primary" onclick="handleLogin()">登录</button>
+                    <p style="text-align: center; margin-top: 16px; font-size: 14px; color: var(--text-light);">
+                        还没有账号？<a href="#" onclick="switchToRegister()" style="color: var(--primary); text-decoration: none; font-weight: 600;">立即注册</a>
+                    </p>
+                </div>
+                <div id="registerSection" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">姓名</label>
+                        <input type="text" class="form-input" id="regName" placeholder="您的姓名">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">邮箱</label>
+                        <input type="email" class="form-input" id="regEmail" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">密码</label>
+                        <input type="password" class="form-input" id="regPassword" placeholder="至少6位">
+                    </div>
+                    <button class="btn-primary" onclick="handleRegister()">注册</button>
+                    <p style="text-align: center; margin-top: 16px; font-size: 14px; color: var(--text-light);">
+                        已有账号？<a href="#" onclick="switchToLogin()" style="color: var(--primary); text-decoration: none; font-weight: 600;">立即登录</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Product Data
+        const products = [
+            { id: 1, name: "现代L型布艺沙发 - 灰色", category: "sofa", price: 899, shipping: 180, tag: "热卖", emoji: "🛋️", gradient: "linear-gradient(135deg, #e8d5a8, #c9a55c)" },
+            { id: 2, name: "天鹅绒tufted沙发套装 - 3件套", category: "sofa", price: 1299, shipping: 220, tag: "精品", emoji: "🛋️", gradient: "linear-gradient(135deg, #d4a5a5, #b87878)" },
+            { id: 3, name: "意式真皮电动沙发 - 棕色", category: "sofa", price: 1100, shipping: 200, tag: "", emoji: "🛋️", gradient: "linear-gradient(135deg, #c9b896, #a89468)" },
+            { id: 4, name: "国王size平台床架 - 胡桃木", category: "bed", price: 599, shipping: 150, tag: "热门", emoji: "🛏️", gradient: "linear-gradient(135deg, #a8c5db, #5a8fa8)" },
+            { id: 5, name: "软包平台床 - 带床头板", category: "bed", price: 449, shipping: 120, tag: "", emoji: "🛏️", gradient: "linear-gradient(135deg, #b8c5db, #8aafcf)" },
+            { id: 6, name: "实木储物床 - 2抽屉", category: "bed", price: 399, shipping: 100, tag: "促销", emoji: "🛏️", gradient: "linear-gradient(135deg, #d4c4a8, #b8a87a)" },
+            { id: 7, name: "大理石餐桌套装 - 6人位", category: "table", price: 799, shipping: 200, tag: "新品", emoji: "🍽️", gradient: "linear-gradient(135deg, #8b7355, #5c4a3d)" },
+            { id: 8, name: "玻璃面餐桌套装 - 4人位", category: "table", price: 549, shipping: 140, tag: "", emoji: "🍽️", gradient: "linear-gradient(135deg, #a8c5db, #7aa5b8)" },
+            { id: 9, name: "实木橡木餐桌 - 8人位", category: "table", price: 999, shipping: 250, tag: "", emoji: "🍽️", gradient: "linear-gradient(135deg, #c4a882, #9a8059)" },
+            { id: 10, name: "人体工学办公椅 - 网布靠背", category: "chair", price: 199, shipping: 50, tag: "流行", emoji: "🪑", gradient: "linear-gradient(135deg, #4a5568, #2d3748)" },
+            { id: 11, name: "天鹅绒休闲椅 - 2件套", category: "chair", price: 349, shipping: 80, tag: "", emoji: "🪑", gradient: "linear-gradient(135deg, #b8a5c4, #9a82a8)" },
+            { id: 12, name: "现代吧椅套装 - 4件", category: "chair", price: 249, shipping: 70, tag: "", emoji: "🪑", gradient: "linear-gradient(135deg, #a5c4b8, #82a89a)" },
+            { id: 13, name: "现代衣柜 - 2门推拉式", category: "storage", price: 649, shipping: 160, tag: "", emoji: "🚪", gradient: "linear-gradient(135deg, #d4c4a8, #b8a87a)" },
+            { id: 14, name: "步入式衣帽间系统 - 定制尺寸", category: "storage", price: 1199, shipping: 280, tag: "奢华", emoji: "🚪", gradient: "linear-gradient(135deg, #c4c4c4, #a0a0a0)" },
+            { id: 15, name: "工业风书架 - 5层", category: "storage", price: 179, shipping: 60, tag: "", emoji: "📚", gradient: "linear-gradient(135deg, #8b7355, #5c4a3d)" },
+            { id: 16, name: "吊灯 - 黄铜色", category: "lighting", price: 129, shipping: 40, tag: "新品", emoji: "💡", gradient: "linear-gradient(135deg, #f5e6d3, #e5d5c1)" },
+        ];
+        
+        // Cart state
+        let cart = {};
+        let currentUser = null;
+        let currentCategory = 'all';
+        let favorites = [];
+        
+        // Render products
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            let filtered = currentCategory === 'all' ? products : products.filter(p => p.category === currentCategory);
+            
+            grid.innerHTML = filtered.map(p => `
+                <div class="product-card">
+                    <div class="product-img" style="background: ${p.gradient}">
+                        ${p.emoji}
+                        ${p.tag ? '<span class="product-tag">' + p.tag + '</span>' : ''}
+                        <div class="product-fav" onclick="toggleFav(event, ${p.id})">${favorites.includes(p.id) ? '❤️' : '♡'}</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-cat">${p.category}</div>
+                        <div class="product-title">${p.name}</div>
+                        <div class="product-price">¥${p.price} <span>+运费</span></div>
+                        <div class="product-meta">
+                            <span class="product-shipping">🚢 预计30-45天</span>
+                        </div>
+                        <button class="add-cart-btn" id="add-btn-${p.id}" onclick="addToCart(${p.id})">
+                            + 加入购物车
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Category filter
+        function setCategory(cat, el) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            renderProducts();
+        }
+        
+        // Toggle favorite
+        function toggleFav(event, id) {
+            event.stopPropagation();
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(f => f !== id);
+            } else {
+                favorites.push(id);
+            }
+            renderProducts();
+        }
+        
+        // Add to cart
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            if (cart[id]) {
+                cart[id].qty += 1;
+            } else {
+                cart[id] = { ...product, qty: 1 };
+            }
+            
+            updateCart();
+            renderProducts();
+            
+            const btn = document.getElementById('add-btn-' + id);
+            btn.classList.add('added');
+            btn.innerHTML = '✓ 已添加!';
+            setTimeout(() => {
+                btn.classList.remove('added');
+                btn.innerHTML = '+ 加入购物车';
+            }, 1500);
+            
+            showToast('已添加到购物车!');
+        }
+        
+        // Update cart UI
+        function updateCart() {
+            const items = Object.values(cart);
+            document.getElementById('cart-count').textContent = items.reduce((sum, i) => sum + i.qty, 0);
+            
+            const itemsEl = document.getElementById('cart-items');
+            const footerEl = document.getElementById('cart-footer');
+            
+            if (items.length === 0) {
+                itemsEl.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">📭</div><p>购物车是空的</p><p style="font-size: 13px;">开始添加商品吧</p></div>';
+                footerEl.style.display = 'none';
+            } else {
+                itemsEl.innerHTML = items.map(item => '<div class="cart-item"><div class="cart-item-img" style="background: ' + item.gradient + '">' + item.emoji + '</div><div class="cart-item-info"><div class="cart-item-title">' + item.name + '</div><div class="cart-item-price">¥' + item.price + '</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty(' + item.id + ', -1)">−</button><span>' + item.qty + '</span><button class="qty-btn" onclick="changeQty(' + item.id + ', 1)">+</button></div><div class="cart-item-remove" onclick="removeFromCart(' + item.id + ')">✕ 移除</div></div></div>').join('');
+                footerEl.style.display = 'block';
+                
+                const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+                const shipping = items.reduce((sum, i) => sum + i.shipping * i.qty, 0);
+                const total = subtotal + shipping;
+                
+                document.getElementById('cartItemCount').textContent = items.reduce((sum, i) => sum + i.qty, 0);
+                document.getElementById('cart-subtotal').textContent = '¥' + subtotal;
+                document.getElementById('cart-shipping').textContent = '¥' + shipping;
+                document.getElementById('cart-total').textContent = '¥' + total;
+            }
+        }
+        
+        // Cart operations
+        function changeQty(id, delta) {
+            if (cart[id]) {
+                cart[id].qty += delta;
+                if (cart[id].qty <= 0) delete cart[id];
+                updateCart();
+                renderProducts();
+            }
+        }
+        
+        function removeFromCart(id) {
+            delete cart[id];
+            updateCart();
+            renderProducts();
+        }
+        
+        function toggleCart() {
+            document.getElementById('cart-sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('show');
+        }
+        
+        // Toast
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+        
+        // Order Modal
+        function showOrderModal(type) {
+            const modal = document.getElementById('orderModal');
+            modal.classList.add('show');
+            
+            // Hide all forms
+            document.getElementById('linkOrderForm').style.display = 'none';
+            document.getElementById('customOrderForm').style.display = 'none';
+            document.getElementById('transportOrderForm').style.display = 'none';
+            document.getElementById('largeOrderForm').style.display = 'none';
+            
+            // Show selected form
+            const titles = {
+                link: '🔗 贴链接下单',
+                custom: '🎨 定制订单',
+                transport: '📦 转运订单',
+                large: '🚢 大件订单'
+            };
+            document.getElementById('orderModalTitle').textContent = titles[type];
+            
+            if (type === 'link') document.getElementById('linkOrderForm').style.display = 'block';
+            if (type === 'custom') document.getElementById('customOrderForm').style.display = 'block';
+            if (type === 'transport') document.getElementById('transportOrderForm').style.display = 'block';
+            if (type === 'large') document.getElementById('largeOrderForm').style.display = 'block';
+        }
+        
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.remove('show');
+        }
+        
+        // Order submissions
+        function submitLinkOrder() {
+            const link = document.getElementById('productLink').value;
+            const email = document.getElementById('orderEmail').value;
+            
+            if (!link || !email) {
+                showToast('请填写必填项');
+                return;
+            }
+            
+            const orderNum = 'LNK-' + Date.now().toString(36).toUpperCase();
+            closeOrderModal();
+            showToast('订单已提交！编号: ' + orderNum);
+        }
+        
+        function submitCustomOrder() {
+            const desc = document.getElementById('customDesc').value;
+            const email = document.getElementById('customEmail').value;
+            
+            if (!desc || !email) {
+                showToast('请填写必填项');
+                return;
+            }
+            
+            const orderNum = 'CUS-' + Date.now().toString(36).toUpperCase();
+            closeOrderModal();
+            showToast('定制需求已提交！编号: ' + orderNum);
+        }
+        
+        function submitTransportOrder() {
+            const email = document.getElementById('transportEmail').value;
+            
+            if (!email) {
+                showToast('请填写邮箱');
+                return;
+            }
+            
+            const orderNum = 'TRN-' + Date.now().toString(36).toUpperCase();
+            closeOrderModal();
+            showToast('转运订单已提交！编号: ' + orderNum);
+        }
+        
+        function submitLargeOrder() {
+            const email = document.getElementById('largeEmail').value;
+            
+            if (!email) {
+                showToast('请填写邮箱');
+                return;
+            }
+            
+            const orderNum = 'LGE-' + Date.now().toString(36).toUpperCase();
+            closeOrderModal();
+            showToast('大件订单已提交！编号: ' + orderNum);
+        }
+        
+        // User Modal
+        function showUserModal() {
+            document.getElementById('userModal').classList.add('show');
+        }
+        
+        function closeUserModal() {
+            document.getElementById('userModal').classList.remove('show');
+        }
+        
+        function switchToRegister() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('registerSection').style.display = 'block';
+            document.getElementById('userModalTitle').textContent = '注册';
+        }
+        
+        function switchToLogin() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('registerSection').style.display = 'none';
+            document.getElementById('userModalTitle').textContent = '登录';
+        }
+        
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showToast('请填写所有字段');
+                return;
+            }
+            
+            currentUser = { email, name: email.split('@')[0] };
+            localStorage.setItem('user', JSON.stringify(currentUser));
+            updateUserUI();
+            closeUserModal();
+            showToast('欢迎回来, ' + currentUser.name + '!');
+        }
+        
+        function handleRegister() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            
+            if (!name || !email || !password) {
+                showToast('请填写所有字段');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showToast('密码至少6位');
+                return;
+            }
+            
+            currentUser = { email, name };
+            localStorage.setItem('user', JSON.stringify(currentUser));
+            updateUserUI();
+            closeUserModal();
+            showToast('注册成功，欢迎 ' + name + '!');
+        }
+        
+        function updateUserUI() {
+            const btn = document.getElementById('userBtn');
+            if (currentUser) {
+                btn.innerHTML = '<span class="nav-action-icon">👤</span><span class="nav-action-text">' + currentUser.name + '</span>';
+            } else {
+                btn.innerHTML = '<span class="nav-action-icon">👤</span><span class="nav-action-text">登录</span>';
+            }
+        }
+        
+        // Search function
+        function searchProduct() {
+            const query = document.getElementById('searchInput').value;
+            if (query.trim()) {
+                showToast('正在搜索: ' + query.substring(0, 50));
+                // In real app, this would call backend API
+            }
+        }
+        
+        // Checkout
+        function proceedToCheckout() {
+            const items = Object.values(cart);
+            if (items.length === 0) {
+                showToast('购物车是空的');
+                return;
+            }
+            toggleCart();
+            showToast('结账功能开发中，请使用上方下单入口');
+        }
+        
+        function showHome() {
+            window.scrollTo(0, 0);
+        }
+        
+        // Init
+        function init() {
+            const savedUser = localStorage.getItem('user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                updateUserUI();
+            }
+            renderProducts();
+        }
+        
+        init();
+    </script>
+</body>
+</html>

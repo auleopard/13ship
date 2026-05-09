@@ -1,0 +1,29 @@
+{
+  "name": "13ship",
+  "version": "1.0.0",
+  "description": "13Ship - Reverse Cross-border Shopping Platform",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js",
+    "db:init": "node server/database/init.js",
+    "db:migrate": "node server/database/migrate.js"
+  },
+  "keywords": ["taobao", "taobao-agent", "forwarding", "shipping"],
+  "author": "13Ship Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "better-sqlite3": "^9.4.3",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express-validator": "^7.0.1",
+    "cheerio": "^1.0.0-rc.12",
+    "axios": "^1.6.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}
